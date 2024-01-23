@@ -7,55 +7,454 @@
 	},
 	"item": [
 		{
-			"name": "Userek lekérdezése",
-			"event": [
+			"name": "Személyek",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
+					"name": "Személy létrehozésa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Teszt Mátyás\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/user",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Személy módosítása",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 1,\r\n        \"name\": \"Hivekovics Zoltán Sándor\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Személy lekérdezése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/users",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Személy törlése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 1,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"Hivekovics Zoltán Sándor\"\r\n        },\r\n        \"addressType\": \"PERMANET\",\r\n        \"country\": \"Magyarország\",\r\n        \"city\": \"Budapest\",\r\n        \"placeName\": \"Fő utca\",\r\n        \"streetNumber\": \"1\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						},
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
 				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8080/users",
-				"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "User létrehozésa",
-			"event": [
+			"name": "Címek",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"name\": \"Teszt Elek\"}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "Címek lekérdezése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
-					}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/addresses",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
 				},
-				"url": "http://localhost:8080/user",
-				"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
-			},
-			"response": []
+				{
+					"name": "Cím létrehozása",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"Hivekovics Zoltán\"\r\n        },\r\n        \"addressType\": \"TEMPORARY\",\r\n        \"country\": \"Magyarország\",\r\n        \"city\": \"Budapest\",\r\n        \"placeName\": \"Násznagy utca\",\r\n        \"streetNumber\": \"26/B\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/address",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Cím módosítása",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 1,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"Hivekovics Zoltán Sándor\"\r\n        },\r\n        \"addressType\": \"PERMANET\",\r\n        \"country\": \"Magyarország\",\r\n        \"city\": \"Budapest\",\r\n        \"placeName\": \"Fő utca\",\r\n        \"streetNumber\": \"1\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/address/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Cím törlése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 1,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"Hivekovics Zoltán Sándor\"\r\n        },\r\n        \"addressType\": \"PERMANET\",\r\n        \"country\": \"Magyarország\",\r\n        \"city\": \"Budapest\",\r\n        \"placeName\": \"Fő utca\",\r\n        \"streetNumber\": \"1\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/address/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						},
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Elérhetőség",
+			"item": [
+				{
+					"name": "Elérhetőségek lekérdezése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/contacts",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Elérhetőség létrehozésa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {        \r\n        \"address\": {\r\n            \"id\": 1,\r\n            \"user\": {\r\n                \"id\": 1,\r\n                \"name\": \"Hivekovics Zoltán\"\r\n            },\r\n            \"addressType\": \"PERMANET\",\r\n            \"country\": \"Magyarország\",\r\n            \"city\": \"Tés\",\r\n            \"placeName\": \"Táncsics Mihály utca\",\r\n            \"streetNumber\": \"43\"\r\n        },\r\n        \"email\": \"hivekovicsz@freemail.com\",\r\n        \"phoneNumber\": \"+3630000123\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/contact",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Elérhetőség módosítása",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"id\": 1,\r\n        \"address\": {\r\n            \"id\": 1,\r\n            \"user\": {\r\n                \"id\": 1,\r\n                \"name\": \"Hivekovics Zoltán\"\r\n            },\r\n            \"addressType\": \"PERMANET\",\r\n            \"country\": \"Magyarország\",\r\n            \"city\": \"Tés\",\r\n            \"placeName\": \"Táncsics Mihály utca\",\r\n            \"streetNumber\": \"43\"\r\n        },\r\n        \"email\": \"hivekovicsz@hotmail.com\",\r\n        \"phoneNumber\": \"+36300000007\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contact/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contact",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
+					"name": "Elérhetőség törlése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 1,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"Hivekovics Zoltán Sándor\"\r\n        },\r\n        \"addressType\": \"PERMANET\",\r\n        \"country\": \"Magyarország\",\r\n        \"city\": \"Budapest\",\r\n        \"placeName\": \"Fő utca\",\r\n        \"streetNumber\": \"1\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contact/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contact",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						},
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
