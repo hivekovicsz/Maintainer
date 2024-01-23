@@ -10,6 +10,27 @@
 			"name": "Személyek",
 			"item": [
 				{
+					"name": "Személy lekérdezése",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/users",
+						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
+					},
+					"response": []
+				},
+				{
 					"name": "Személy létrehozésa",
 					"event": [
 						{
@@ -82,27 +103,6 @@
 								}
 							]
 						},
-						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
-					},
-					"response": []
-				},
-				{
-					"name": "Személy lekérdezése",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/users",
 						"description": "Lapozható, rendezhető táblázat. Partnerkódra, névre, országra töredék keresés lehetséges. Alapértelmezett rendezés elöl az aktívak és partnerkód szerint növekvő sorrendben"
 					},
 					"response": []
