@@ -26,8 +26,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) throws Exception {
-		validateUserId(user);
-		System.out.println(user);
+		validateUserId(user);		
 		com.example.maintainer.entity.User entityUser = userDao.save(userConverter.convertModel(user));
 		return userConverter.convertEntity(entityUser);
 	}

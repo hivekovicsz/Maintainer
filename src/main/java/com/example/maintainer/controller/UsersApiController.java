@@ -27,8 +27,7 @@ public class UsersApiController implements UsersApi {
 
 	@Override
 	@PostMapping(value = "/user", produces = {"application/json"}, consumes = {"application/json"})
-	public User createUser(@RequestBody User user) throws Exception {
-		System.out.println(user);
+	public User createUser(@RequestBody User user) throws Exception {		
 		return userService.createUser(user);
 	}
 
