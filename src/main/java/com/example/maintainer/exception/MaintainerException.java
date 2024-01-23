@@ -5,8 +5,8 @@ public class MaintainerException extends Exception {
 	private String code;
 	
 	public MaintainerException(String code) {
-		super() ;
-		this.code = code;
+		super() ;		
+		this.code = code;		
 	}
 
 }

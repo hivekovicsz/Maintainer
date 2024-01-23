@@ -46,7 +46,7 @@ public class UsersApiController implements UsersApi {
 	@Override
 	@DeleteMapping(value = "/user/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteUserById(@PathVariable("id") Long id) {
+	public void deleteUserById(@PathVariable("id") Long id) throws MaintainerException {
 		userService.deleteUserById(id);
 	}
 

@@ -13,6 +13,6 @@ public interface AddressesApi {
 
 	Address modifyAddressById(Long id, Address address) throws MaintainerException;
 
-	void deleteAddressById(Long id);
+	void deleteAddressById(Long id) throws MaintainerException;
 
 }

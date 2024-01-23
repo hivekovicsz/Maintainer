@@ -6,4 +6,6 @@ import com.example.maintainer.entity.Contact;
 
 public interface ContactDao extends JpaRepository<Contact, Long> {
 
+	int countByAddressId(Long addressId);
+	
 }

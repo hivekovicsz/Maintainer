@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.maintainer.converter.ContactConverter;
 import com.example.maintainer.dao.ContactDao;
@@ -28,6 +29,7 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Contact createContact(Contact contact) throws MaintainerException {
  		invalidContactId(contact);
 		com.example.maintainer.entity.Contact entityContact = contactDao.saveAndFlush(contactConverter.convertModel(contact));
@@ -35,6 +37,7 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Contact modifyContactById(Long id, Contact contact) throws MaintainerException {
 		validateContactId(id, contact);
 		com.example.maintainer.entity.Contact entityContact = contactDao.saveAndFlush(contactConverter.convertModel(contact));
@@ -42,6 +45,7 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteContactById(Long id) {
 		contactDao.deleteById(id);
 		contactDao.flush();

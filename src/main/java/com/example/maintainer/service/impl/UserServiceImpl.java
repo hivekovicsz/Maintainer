@@ -5,8 +5,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.maintainer.converter.UserConverter;
+import com.example.maintainer.dao.AddressDao;
+import com.example.maintainer.dao.ContactDao;
 import com.example.maintainer.dao.UserDao;
 import com.example.maintainer.exception.MaintainerException;
 import com.example.maintainer.model.User;
@@ -19,6 +22,9 @@ public class UserServiceImpl implements UserService {
 	UserDao userDao;
 
 	@Autowired
+	AddressDao addressDao; 
+
+	@Autowired
 	UserConverter userConverter;
 
 	@Override
@@ -27,6 +33,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public User createUser(User user) throws MaintainerException {
 		invalidUserId(user);
 		com.example.maintainer.entity.User entityUser = userDao.saveAndFlush(userConverter.convertModel(user));
@@ -34,6 +41,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public User modifyUserById(Long id, User user) throws MaintainerException {
 		validateUserId(id, user);
 		if (userDao.existsById(id)) {
@@ -44,7 +52,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUserById(Long id) {
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteUserById(Long id) throws MaintainerException {
+		validateAddress(id);
 		userDao.deleteById(id);
 		userDao.flush();
 	}
@@ -58,6 +68,12 @@ public class UserServiceImpl implements UserService {
 	private void validateUserId(Long id, User user) throws MaintainerException {
 		if (!id.equals(user.getId())) {
 			throw new MaintainerException("Invalid user model");
+		}
+	}
+
+	private void validateAddress(Long id) throws MaintainerException {		
+		if (addressDao.countByUserId(id) > 0) {
+			throw new MaintainerException("Unable to delete - has contact data");
 		}
 	}
 

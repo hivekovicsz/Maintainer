@@ -13,6 +13,6 @@ public interface UsersApi {
 
 	User modifyUserById(Long id, User user) throws MaintainerException;
 
-	void deleteUserById(Long id);
+	void deleteUserById(Long id) throws MaintainerException;
 
 }

@@ -47,7 +47,7 @@ public class AddressesApiController implements AddressesApi {
 	@Override
 	@DeleteMapping(value = "/address/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteAddressById(@PathVariable("id") Long id) {
+	public void deleteAddressById(@PathVariable("id") Long id) throws MaintainerException {		
 		addressService.deleteAddressById(id);
 	}
 

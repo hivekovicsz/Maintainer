@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.maintainer.converter.AddressConverter;
 import com.example.maintainer.dao.AddressDao;
+import com.example.maintainer.dao.ContactDao;
 import com.example.maintainer.exception.MaintainerException;
 import com.example.maintainer.model.Address;
 import com.example.maintainer.service.AddressService;
@@ -19,6 +21,9 @@ public class AddressServiceImpl implements AddressService {
 	AddressDao addressDao;
 
 	@Autowired
+	ContactDao contactDao;
+
+	@Autowired
 	AddressConverter addressConverter;
 
 	@Override
@@ -28,27 +33,33 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Address createAddress(Address address) throws MaintainerException {
 		invalidUserId(address);
+		validateAddressType(address);
 		com.example.maintainer.entity.Address entityAddress = addressDao
 				.saveAndFlush(addressConverter.convertModel(address));
 		return addressConverter.convertEntity(entityAddress);
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Address modifyAddressById(Long id, Address address) throws MaintainerException {
-		validateAddressId(id, address);		
+		validateAddressId(id, address);
+		validateAddressType(address);
 		if (addressDao.existsById(id)) {
 			com.example.maintainer.entity.Address entityAddress = addressDao
 					.saveAndFlush(addressConverter.convertModel(address));
 			return addressConverter.convertEntity(entityAddress);
 		}
 		return null;
-		
+
 	}
 
 	@Override
-	public void deleteAddressById(Long id) {
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteAddressById(Long id) throws MaintainerException {
+		validateContact(id);
 		addressDao.deleteById(id);
 		addressDao.flush();
 	}
@@ -63,6 +74,29 @@ public class AddressServiceImpl implements AddressService {
 		if (!id.equals(address.getId())) {
 			throw new MaintainerException("Invalid address model");
 		}
+	}
+
+	private void validateAddressType(Address address) throws MaintainerException {
+		if (address.getAddressType() == null) {
+			throw new MaintainerException("Missing address type");
+		}
+		if (address.getId() != null) {
+			if (addressDao.countByUserIdAndAddressTypeAndNotId(address.getUser().getId(),
+					com.example.maintainer.entity.enumeration.AddressType.valueOf(address.getAddressType().name()), address.getId()) > 0) {
+				throw new MaintainerException("Invalid address type");
+			}
+		} else {
+			if (addressDao.countByUserIdAndAddressType(address.getUser().getId(),
+					com.example.maintainer.entity.enumeration.AddressType.valueOf(address.getAddressType().name())) > 0) {
+				throw new MaintainerException("Invalid address type");
+			}
+		}
+	}
+
+	private void validateContact(Long id) throws MaintainerException {
+		if (contactDao.countByAddressId(id) > 0) {
+			throw new MaintainerException("Unable to delete - has contact data");
+		}		
 	}
 
 }

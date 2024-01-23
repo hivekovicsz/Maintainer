@@ -13,6 +13,6 @@ public interface UserService {
 
 	User modifyUserById(Long id, User user) throws MaintainerException;
 
-	void deleteUserById(Long id);
+	void deleteUserById(Long id) throws MaintainerException;
 
 }
