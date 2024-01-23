@@ -31,7 +31,7 @@ public class Contact {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "fk_address_id_contact"))
+	@JoinColumn(nullable = false, name = "address_id", foreignKey = @ForeignKey(name = "fk_address_id_contact"))
 	private Address address;
 
 	@Column(name = "email")

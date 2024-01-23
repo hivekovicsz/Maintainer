@@ -29,16 +29,40 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public Address createAddress(Address address) throws MaintainerException {
-		validateUserId(address);
-		com.example.maintainer.entity.Address entityAddress = addressDao.saveAndFlush(addressConverter.convertModel(address));
+		invalidUserId(address);
+		com.example.maintainer.entity.Address entityAddress = addressDao
+				.saveAndFlush(addressConverter.convertModel(address));
 		return addressConverter.convertEntity(entityAddress);
 	}
 
-	private void validateUserId(Address address) throws MaintainerException {
+	@Override
+	public Address modifyAddressById(Long id, Address address) throws MaintainerException {
+		validateAddressId(id, address);		
+		if (addressDao.existsById(id)) {
+			com.example.maintainer.entity.Address entityAddress = addressDao
+					.saveAndFlush(addressConverter.convertModel(address));
+			return addressConverter.convertEntity(entityAddress);
+		}
+		return null;
+		
+	}
+
+	@Override
+	public void deleteAddressById(Long id) {
+		addressDao.deleteById(id);
+		addressDao.flush();
+	}
+
+	private void invalidUserId(Address address) throws MaintainerException {
 		if (address.getUser() == null || address.getUser().getId() == null) {
 			throw new MaintainerException("Invalid user model");
 		}
-		
+	}
+
+	private void validateAddressId(Long id, Address address) throws MaintainerException {
+		if (!id.equals(address.getId())) {
+			throw new MaintainerException("Invalid address model");
+		}
 	}
 
 }

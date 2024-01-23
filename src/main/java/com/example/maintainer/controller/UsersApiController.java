@@ -38,13 +38,13 @@ public class UsersApiController implements UsersApi {
 	}
 
 	@Override
-	@PutMapping(value = "user/{id}", produces = { "application/json" }, consumes = { "application/json" })
+	@PutMapping(value = "/user/{id}", produces = { "application/json" }, consumes = { "application/json" })
 	public User modifyUserById(@PathVariable("id") Long id, @RequestBody User user) throws MaintainerException {
 		return userService.modifyUserById(id, user);
 	}
 
 	@Override
-	@DeleteMapping(value = "user/{id}")
+	@DeleteMapping(value = "/user/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUserById(@PathVariable("id") Long id) {
 		userService.deleteUserById(id);

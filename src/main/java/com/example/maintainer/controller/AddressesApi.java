@@ -11,4 +11,8 @@ public interface AddressesApi {
 	
 	Address createAddress(Address address) throws MaintainerException;
 
+	Address modifyAddressById(Long id, Address address) throws MaintainerException;
+
+	void deleteAddressById(Long id);
+
 }
