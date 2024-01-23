@@ -3,9 +3,7 @@ package com.example.maintainer.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.maintainer.entity.Address;
 import com.example.maintainer.entity.Contact;
-import com.example.maintainer.model.enumeration.AddressType;
 
 @Component
 public class ContactConverter {
