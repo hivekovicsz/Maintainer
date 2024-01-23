@@ -30,5 +30,6 @@ public class UsersApiController implements UsersApi {
 	public User createUser(@RequestBody User user) throws Exception {		
 		return userService.createUser(user);
 	}
+	
 
 }
