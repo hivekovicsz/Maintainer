@@ -1,5 +1,7 @@
 package com.example.maintainer.model;
 
+import com.example.maintainer.model.enumeration.AddressType;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +15,7 @@ public class Address {
 
 	private User user;
 
-	private String addressType;
+	private AddressType addressType;
 
 	private String country;
 

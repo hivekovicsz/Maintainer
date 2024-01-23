@@ -3,8 +3,12 @@ package com.example.maintainer.entity;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.example.maintainer.entity.enumeration.AddressType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -34,8 +38,10 @@ public class Address {
 	@JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "fk_user_id_address"))
 	private User user;
 
-	@Column(name = "address_type", nullable = false)
-	private String addressType;
+	@NotNull
+	@Column(name = "address_type", nullable = false, length = 100)
+    @Enumerated(EnumType.STRING)
+	private AddressType addressType;
 
 	@Column(name = "country")
 	private String country;
