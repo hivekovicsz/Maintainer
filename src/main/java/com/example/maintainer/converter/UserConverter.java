@@ -1,11 +1,11 @@
 package com.example.maintainer.converter;
 
-import com.example.maintainer.model.User;
+import com.example.maintainer.entity.User;
 
 public interface UserConverter {
 
-	User convertEntity(com.example.maintainer.entity.User user);
+	com.example.maintainer.model.User convertEntity(User user);
 
-	com.example.maintainer.entity.User convertModel(User user);
+	User convertModel(com.example.maintainer.model.User user);
 
 }

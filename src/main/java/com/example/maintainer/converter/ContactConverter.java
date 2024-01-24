@@ -1,11 +1,11 @@
 package com.example.maintainer.converter;
 
-import com.example.maintainer.model.Contact;
+import com.example.maintainer.entity.Contact;
 
 public interface ContactConverter {
 
-	Contact convertEntity(com.example.maintainer.entity.Contact contact);
+	com.example.maintainer.model.Contact convertEntity(Contact contact);
 
-	com.example.maintainer.entity.Contact convertModel(Contact contact);
+	Contact convertModel(com.example.maintainer.model.Contact contact);
 
 }

@@ -1,11 +1,11 @@
 package com.example.maintainer.converter;
 
-import com.example.maintainer.model.Address;
+import com.example.maintainer.entity.Address;
 
 public interface AddressConverter {
 
-	Address convertEntity(com.example.maintainer.entity.Address address);
+	com.example.maintainer.model.Address convertEntity(Address address);
 
-	com.example.maintainer.entity.Address convertModel(Address address);
+	Address convertModel(com.example.maintainer.model.Address address);
 
 }
