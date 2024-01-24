@@ -82,12 +82,14 @@ public class AddressServiceImpl implements AddressService {
 		}
 		if (address.getId() != null) {
 			if (addressDao.countByUserIdAndAddressTypeAndNotId(address.getUser().getId(),
-					com.example.maintainer.entity.enumeration.AddressType.valueOf(address.getAddressType().name()), address.getId()) > 0) {
+					com.example.maintainer.entity.enumeration.AddressType.valueOf(address.getAddressType().name()),
+					address.getId()) > 0) {
 				throw new MaintainerException("Invalid address type");
 			}
 		} else {
 			if (addressDao.countByUserIdAndAddressType(address.getUser().getId(),
-					com.example.maintainer.entity.enumeration.AddressType.valueOf(address.getAddressType().name())) > 0) {
+					com.example.maintainer.entity.enumeration.AddressType
+							.valueOf(address.getAddressType().name())) > 0) {
 				throw new MaintainerException("Invalid address type");
 			}
 		}
@@ -96,7 +98,7 @@ public class AddressServiceImpl implements AddressService {
 	private void validateContact(Long id) throws MaintainerException {
 		if (contactDao.countByAddressId(id) > 0) {
 			throw new MaintainerException("Unable to delete - has contact data");
-		}		
+		}
 	}
 
 }

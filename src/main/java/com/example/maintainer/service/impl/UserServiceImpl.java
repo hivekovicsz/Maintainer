@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.maintainer.converter.UserConverter;
 import com.example.maintainer.dao.AddressDao;
-import com.example.maintainer.dao.ContactDao;
 import com.example.maintainer.dao.UserDao;
 import com.example.maintainer.exception.MaintainerException;
 import com.example.maintainer.model.User;

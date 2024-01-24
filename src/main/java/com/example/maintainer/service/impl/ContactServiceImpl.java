@@ -31,8 +31,9 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Contact createContact(Contact contact) throws MaintainerException {
- 		invalidContactId(contact);
-		com.example.maintainer.entity.Contact entityContact = contactDao.saveAndFlush(contactConverter.convertModel(contact));
+		invalidContactId(contact);
+		com.example.maintainer.entity.Contact entityContact = contactDao
+				.saveAndFlush(contactConverter.convertModel(contact));
 		return contactConverter.convertEntity(entityContact);
 	}
 
@@ -40,8 +41,12 @@ public class ContactServiceImpl implements ContactService {
 	@Transactional(rollbackFor = Exception.class)
 	public Contact modifyContactById(Long id, Contact contact) throws MaintainerException {
 		validateContactId(id, contact);
-		com.example.maintainer.entity.Contact entityContact = contactDao.saveAndFlush(contactConverter.convertModel(contact));
-		return contactConverter.convertEntity(entityContact);
+		if (contactDao.existsById(id)) {
+			com.example.maintainer.entity.Contact entityContact = contactDao
+					.saveAndFlush(contactConverter.convertModel(contact));
+			return contactConverter.convertEntity(entityContact);
+		}
+		return null;
 	}
 
 	@Override
