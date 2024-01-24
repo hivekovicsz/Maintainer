@@ -1,15 +1,15 @@
-drop table if exists global_contact CASCADE;
-drop table if exists global_address CASCADE;
-drop table if exists global_user CASCADE; 
+drop table if exists global_contact;
+drop table if exists global_address;
+drop table if exists global_user; 
 
 create table global_user (
-   id bigint auto_increment, 
+   id bigint IDENTITY(1,1), 
    name varchar(255) not null,   
    primary key (id)
 );
    
 create table global_address (
-   id bigint auto_increment,   
+   id bigint IDENTITY(1,1),
    user_id bigint,
    address_type varchar(100),
    country varchar(100),
@@ -22,7 +22,7 @@ create table global_address (
 alter table global_address add constraint fk_user_id_address foreign key (user_id) references global_user (id);
 
 create table global_contact (
-   id bigint auto_increment,
+   id bigint IDENTITY(1,1),
    address_id bigint,
    email varchar(255),
    phone_number varchar(100),
