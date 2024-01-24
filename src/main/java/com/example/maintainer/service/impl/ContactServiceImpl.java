@@ -46,7 +46,7 @@ public class ContactServiceImpl implements ContactService {
 					.saveAndFlush(contactConverter.convertModel(contact));
 			return contactConverter.convertEntity(entityContact);
 		}
-		return null;
+		throw new MaintainerException("Contact not found");
 	}
 
 	@Override

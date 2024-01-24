@@ -14,6 +14,8 @@ import com.example.maintainer.exception.MaintainerException;
 import com.example.maintainer.model.User;
 import com.example.maintainer.service.UserService;
 
+import io.micrometer.common.util.StringUtils;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class)
 	public User createUser(User user) throws MaintainerException {
 		invalidUserId(user);
+		validateUserName(user);
 		com.example.maintainer.entity.User entityUser = userDao.saveAndFlush(userConverter.convertModel(user));
 		return userConverter.convertEntity(entityUser);
 	}
@@ -44,10 +47,11 @@ public class UserServiceImpl implements UserService {
 	public User modifyUserById(Long id, User user) throws MaintainerException {
 		validateUserId(id, user);
 		if (userDao.existsById(id)) {
+			validateUserName(user);
 			com.example.maintainer.entity.User entityUser = userDao.saveAndFlush(userConverter.convertModel(user));
 			return userConverter.convertEntity(entityUser);
 		}
-		return null;
+		throw new MaintainerException("User not found");
 	}
 
 	@Override
@@ -67,6 +71,12 @@ public class UserServiceImpl implements UserService {
 	private void validateUserId(Long id, User user) throws MaintainerException {
 		if (!id.equals(user.getId())) {
 			throw new MaintainerException("Invalid user model");
+		}
+	}
+	
+	private void validateUserName(User user) throws MaintainerException {
+		if (StringUtils.isBlank(user.getName())) {
+			throw new MaintainerException("Missing username");
 		}
 	}
 

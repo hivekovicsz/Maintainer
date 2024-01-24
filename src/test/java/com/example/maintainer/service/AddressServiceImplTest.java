@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -66,7 +67,7 @@ public class AddressServiceImplTest {
 		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
 		userModel.setId(1L);
 		userModel.setName("Hivekovics Zoltán");
-		
+
 		com.example.maintainer.model.Address addressModel = new com.example.maintainer.model.Address();
 		addressModel.setId(1L);
 		addressModel.setUser(userModel);
@@ -91,7 +92,7 @@ public class AddressServiceImplTest {
 		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
 		userModel.setId(1L);
 		userModel.setName("Hivekovics Zoltán");
-		
+
 		com.example.maintainer.model.Address addressModel = new com.example.maintainer.model.Address();
 		addressModel.setUser(userModel);
 		addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
@@ -125,12 +126,12 @@ public class AddressServiceImplTest {
 		assertEquals(addressModel, retAddressModel);
 	}
 
-	@Test
+	@Test	
 	void testModifyAddressById() throws MaintainerException {
 		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
 		userModel.setId(1L);
 		userModel.setName("Hivekovics Zoltán");
-		
+
 		com.example.maintainer.model.Address addressModel = new com.example.maintainer.model.Address();
 		addressModel.setId(1L);
 		addressModel.setUser(userModel);

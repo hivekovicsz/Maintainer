@@ -86,7 +86,7 @@ public class UserServiceImplTest {
 		assertNotNull(retUserModel);
 		assertEquals(userModel, retUserModel);
 	}
-	
+
 	@Test
 	void testModifyUserById() throws MaintainerException {
 		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
@@ -98,7 +98,7 @@ public class UserServiceImplTest {
 		userEntity.setName("Hivekovics Zoltán");
 
 		when(userDao.existsById(1L)).thenReturn(true);
-		when(userDao.saveAndFlush(userEntity)).thenReturn(userEntity);		
+		when(userDao.saveAndFlush(userEntity)).thenReturn(userEntity);
 		when(userConverter.convertEntity(userEntity)).thenReturn(userModel);
 		when(userConverter.convertModel(userModel)).thenReturn(userEntity);
 
@@ -111,8 +111,8 @@ public class UserServiceImplTest {
 		assertNotNull(retUserModel);
 		assertEquals(userModel, retUserModel);
 	}
-	
-	@Test
+
+	@Test	
 	void testDeleteUserById() throws MaintainerException {
 		when(addressDao.countByUserId(1L)).thenReturn(0);
 

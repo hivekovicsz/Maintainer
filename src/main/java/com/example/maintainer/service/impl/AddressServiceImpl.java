@@ -45,14 +45,14 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Address modifyAddressById(Long id, Address address) throws MaintainerException {
-		validateAddressId(id, address);
-		validateAddressType(address);
+		validateAddressId(id, address);		
 		if (addressDao.existsById(id)) {
+			validateAddressType(address);
 			com.example.maintainer.entity.Address entityAddress = addressDao
 					.saveAndFlush(addressConverter.convertModel(address));
 			return addressConverter.convertEntity(entityAddress);
 		}
-		return null;
+		throw new MaintainerException("Address not found");
 
 	}
 
