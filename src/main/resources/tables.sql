@@ -20,6 +20,7 @@ create table global_address (
 );
 
 alter table global_address add constraint fk_user_id_address foreign key (user_id) references global_user (id);
+alter table global_address add constraint uk_address unique (user_id, address_type);
 
 create table global_contact (
    id bigint IDENTITY(1,1),

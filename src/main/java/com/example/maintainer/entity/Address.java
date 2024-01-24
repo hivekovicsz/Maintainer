@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,10 @@ import lombok.Setter;
 @Setter(AccessLevel.PUBLIC)
 
 @Entity
-@Table(name = "global_address")
+@Table(name = "global_address",
+uniqueConstraints = {
+				@UniqueConstraint(name = "uk_address", columnNames = {"user_id, address_type"})
+})
 public class Address {
 
 	@Id
