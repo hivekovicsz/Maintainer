@@ -22,7 +22,7 @@ public class GlobalControllerExceptionHandler {
 			ErrorMessage resultBody = new ErrorMessage();
 			resultBody.setCode(responseCode);
 
-			return new ResponseEntity<>(resultBody, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(resultBody, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		return null;
 
