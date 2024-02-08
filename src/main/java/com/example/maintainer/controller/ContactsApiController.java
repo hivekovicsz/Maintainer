@@ -46,7 +46,7 @@ public class ContactsApiController implements ContactsApi {
 	@Override
 	@DeleteMapping(value = "/contact/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteContactById(@PathVariable("id") Long id) {
+	public void deleteContactById(@PathVariable("id") Long id) throws MaintainerException {
 		contactService.deleteContactById(id);
 	}
 

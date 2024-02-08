@@ -1,14 +1,10 @@
 package com.example.maintainer.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.maintainer.dao.AddressDao;
+import com.example.maintainer.dao.UserDao;
+import com.example.maintainer.exception.MaintainerException;
+import com.example.maintainer.model.User;
+import com.example.maintainer.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,109 +13,89 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.maintainer.converter.UserConverter;
-import com.example.maintainer.dao.AddressDao;
-import com.example.maintainer.dao.UserDao;
-import com.example.maintainer.entity.User;
-import com.example.maintainer.exception.MaintainerException;
-import com.example.maintainer.service.impl.UserServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
 
-@ExtendWith({ MockitoExtension.class })
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+
+@ExtendWith({MockitoExtension.class})
 public class UserServiceImplTest {
 
-	@InjectMocks
-	UserServiceImpl userServiceImpl;
+    @InjectMocks
+    UserServiceImpl userServiceImpl;
 
-	@Mock
-	UserDao userDao;
+    @Mock
+    UserDao userDao;
 
-	@Mock
-	AddressDao addressDao;
+    @Mock
+    AddressDao addressDao;
 
-	@Mock
-	UserConverter userConverter;
+    @BeforeEach
+    public void init() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-	@BeforeEach
-	public void init() {
-		MockitoAnnotations.openMocks(this);
-	}
+    @Test
+    void testListUsers() {
+        List<User> listModels = new ArrayList<>();
+        User userModel = new User();
+        userModel.setId(1L);
+        userModel.setName("Hivekovics Zoltán");
+        listModels.add(userModel);
 
-	@Test
-	void testListUsers() {
-		List<User> listEntities = new ArrayList<>();
-		User userEntity = new User();
-		userEntity.setId(1L);
-		userEntity.setName("Hivekovics Zoltán");
-		listEntities.add(userEntity);
+        when(userDao.listUsers()).thenReturn(listModels);
 
-		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
-		userModel.setId(1L);
-		userModel.setName("Hivekovics Zoltán");
+        List<User> retList = userServiceImpl.listUsers();
 
-		when(userDao.findAll()).thenReturn(listEntities);
-		when(userConverter.convertEntity(userEntity)).thenReturn(userModel);
+        verify(userDao, times(1)).listUsers();
+        assertEquals(1, retList.size());
+    }
 
-		List<com.example.maintainer.model.User> retList = userServiceImpl.listUsers();
+    @Test
+    void testCreateUser() throws MaintainerException {
+        User userModel = new User();
+        userModel.setName("Hivekovics Zoltán");
 
-		verify(userDao, times(1)).findAll();
-		verify(userConverter, times(1)).convertEntity(userEntity);
-		assertEquals(1, retList.size());
-	}
+        when(userDao.saveOrUpdate(userModel)).thenReturn(1L);
+        when(userDao.findById(1L)).thenReturn(userModel);
 
-	@Test
-	void testCreateUser() throws MaintainerException {
-		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
-		userModel.setName("Hivekovics Zoltán");
+        User retUserModel = userServiceImpl.createUser(userModel);
 
-		User userEntity = new User();
-		userEntity.setName("Hivekovics Zoltán");
+        verify(userDao, times(1)).saveOrUpdate(userModel);
+        verify(userDao, times(1)).findById(1L);
+        assertNotNull(retUserModel);
+        assertEquals(userModel, retUserModel);
+    }
 
-		when(userDao.saveAndFlush(userEntity)).thenReturn(userEntity);
-		when(userConverter.convertEntity(userEntity)).thenReturn(userModel);
-		when(userConverter.convertModel(userModel)).thenReturn(userEntity);
+    @Test
+    void testModifyUserById() throws MaintainerException {
+        User userModel = new User();
+        userModel.setId(1L);
+        userModel.setName("Hivekovics Zoltán");
 
-		com.example.maintainer.model.User retUserModel = userServiceImpl.createUser(userModel);
+        when(userDao.existsById(1L)).thenReturn(true);
+        when(userDao.saveOrUpdate(userModel)).thenReturn(1L);
+        when(userDao.findById(1L)).thenReturn(userModel);
 
-		verify(userDao, times(1)).saveAndFlush(userEntity);
-		verify(userConverter, times(1)).convertModel(userModel);
-		verify(userConverter, times(1)).convertEntity(userEntity);
-		assertNotNull(retUserModel);
-		assertEquals(userModel, retUserModel);
-	}
+        User retUserModel = userServiceImpl.modifyUserById(1L, userModel);
 
-	@Test
-	void testModifyUserById() throws MaintainerException {
-		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
-		userModel.setId(1L);
-		userModel.setName("Hivekovics Zoltán");
+        verify(userDao, times(1)).existsById(1L);
+        verify(userDao, times(1)).saveOrUpdate(userModel);
+        verify(userDao, times(1)).findById(1L);
+        assertNotNull(retUserModel);
+        assertEquals(userModel, retUserModel);
+    }
 
-		User userEntity = new User();
-		userEntity.setId(1L);
-		userEntity.setName("Hivekovics Zoltán");
+    @Test
+    void testDeleteUserById() throws MaintainerException {
+        when(addressDao.existsByUserId(1L)).thenReturn(false);
+        when(userDao.existsById(1L)).thenReturn(true);
 
-		when(userDao.existsById(1L)).thenReturn(true);
-		when(userDao.saveAndFlush(userEntity)).thenReturn(userEntity);
-		when(userConverter.convertEntity(userEntity)).thenReturn(userModel);
-		when(userConverter.convertModel(userModel)).thenReturn(userEntity);
+        userServiceImpl.deleteUserById(1L);
 
-		com.example.maintainer.model.User retUserModel = userServiceImpl.modifyUserById(1L, userModel);
-
-		verify(userDao, times(1)).existsById(1L);
-		verify(userDao, times(1)).saveAndFlush(userEntity);
-		verify(userConverter, times(1)).convertModel(userModel);
-		verify(userConverter, times(1)).convertEntity(userEntity);
-		assertNotNull(retUserModel);
-		assertEquals(userModel, retUserModel);
-	}
-
-	@Test	
-	void testDeleteUserById() throws MaintainerException {
-		when(addressDao.countByUserId(1L)).thenReturn(0);
-
-		userServiceImpl.deleteUserById(1L);
-
-		verify(userDao, times(1)).deleteById(1L);
-		verify(userDao, times(1)).flush();
-	}
+        verify(userDao, times(1)).deleteById(1L);
+    }
 
 }

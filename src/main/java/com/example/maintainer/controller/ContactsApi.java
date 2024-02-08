@@ -13,6 +13,6 @@ public interface ContactsApi {
 
 	Contact modifyContactById(Long id, Contact contact) throws MaintainerException;
 
-	void deleteContactById(Long id);
+	void deleteContactById(Long id) throws MaintainerException;
 
 }

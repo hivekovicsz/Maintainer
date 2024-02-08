@@ -1,14 +1,10 @@
 package com.example.maintainer.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.maintainer.dao.AddressDao;
+import com.example.maintainer.dao.ContactDao;
+import com.example.maintainer.exception.MaintainerException;
+import com.example.maintainer.model.Address;
+import com.example.maintainer.service.impl.AddressServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,165 +13,116 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.maintainer.converter.AddressConverter;
-import com.example.maintainer.dao.AddressDao;
-import com.example.maintainer.dao.ContactDao;
-import com.example.maintainer.entity.Address;
-import com.example.maintainer.entity.User;
-import com.example.maintainer.entity.enumeration.AddressType;
-import com.example.maintainer.exception.MaintainerException;
-import com.example.maintainer.service.impl.AddressServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
 
-@ExtendWith({ MockitoExtension.class })
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+
+@ExtendWith({MockitoExtension.class})
 public class AddressServiceImplTest {
 
-	@InjectMocks
-	AddressServiceImpl addressServiceImpl;
+    @InjectMocks
+    AddressServiceImpl addressServiceImpl;
 
-	@Mock
-	AddressDao addressDao;
+    @Mock
+    AddressDao addressDao;
 
-	@Mock
-	ContactDao contactDao;
+    @Mock
+    ContactDao contactDao;
 
-	@Mock
-	AddressConverter addressConverter;
+    @BeforeEach
+    public void init() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-	@BeforeEach
-	public void init() {
-		MockitoAnnotations.openMocks(this);
-	}
+    @Test
+    void testListAddresses() {
+        List<Address> listModels = new ArrayList<>();
+        com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
+        userModel.setId(1L);
+        userModel.setName("Hivekovics Zoltán");
 
-	@Test
-	void testListAddresses() {
-		List<Address> listEntities = new ArrayList<>();
-		User userEntity = new User();
-		userEntity.setId(1L);
-		userEntity.setName("Hivekovics Zoltán");
+        Address addressModel = new Address();
+        addressModel.setId(1L);
+        addressModel.setUser(userModel);
+        addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
+        addressModel.setCountry("Magyarország");
+        addressModel.setCity("Budapest");
+        addressModel.setPlaceName("Fő utca");
+        addressModel.setStreetNumber("1");
+        listModels.add(addressModel);
 
-		Address addressEntity = new Address();
-		addressEntity.setId(1L);
-		addressEntity.setUser(userEntity);
-		addressEntity.setAddressType(AddressType.PERMANET);
-		addressEntity.setCountry("Magyarország");
-		addressEntity.setCity("Budapest");
-		addressEntity.setPlaceName("Fő utca");
-		addressEntity.setStreetNumber("1");
-		listEntities.add(addressEntity);
+        when(addressDao.listAddresses()).thenReturn(listModels);
 
-		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
-		userModel.setId(1L);
-		userModel.setName("Hivekovics Zoltán");
+        List<Address> retList = addressServiceImpl.listAddresses();
 
-		com.example.maintainer.model.Address addressModel = new com.example.maintainer.model.Address();
-		addressModel.setId(1L);
-		addressModel.setUser(userModel);
-		addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
-		addressModel.setCountry("Magyarország");
-		addressModel.setCity("Budapest");
-		addressModel.setPlaceName("Fő utca");
-		addressModel.setStreetNumber("1");
+        verify(addressDao, times(1)).listAddresses();
+        assertEquals(1, retList.size());
+    }
 
-		when(addressDao.findAll()).thenReturn(listEntities);
-		when(addressConverter.convertEntity(addressEntity)).thenReturn(addressModel);
+    @Test
+    void testCreateAddress() throws MaintainerException {
+        com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
+        userModel.setId(1L);
+        userModel.setName("Hivekovics Zoltán");
 
-		List<com.example.maintainer.model.Address> retList = addressServiceImpl.listAddresses();
+        Address addressModel = new Address();
+        addressModel.setUser(userModel);
+        addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
+        addressModel.setCountry("Magyarország");
+        addressModel.setCity("Budapest");
+        addressModel.setPlaceName("Fő utca");
+        addressModel.setStreetNumber("1");
 
-		verify(addressDao, times(1)).findAll();
-		verify(addressConverter, times(1)).convertEntity(addressEntity);
-		assertEquals(1, retList.size());
-	}
+        when(addressDao.saveOrUpdate(addressModel)).thenReturn(1L);
+        when(addressDao.findById(1L)).thenReturn(addressModel);
 
-	@Test
-	void testCreateAddress() throws MaintainerException {
-		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
-		userModel.setId(1L);
-		userModel.setName("Hivekovics Zoltán");
+        Address retAddressModel = addressServiceImpl.createAddress(addressModel);
 
-		com.example.maintainer.model.Address addressModel = new com.example.maintainer.model.Address();
-		addressModel.setUser(userModel);
-		addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
-		addressModel.setCountry("Magyarország");
-		addressModel.setCity("Budapest");
-		addressModel.setPlaceName("Fő utca");
-		addressModel.setStreetNumber("1");
+        verify(addressDao, times(1)).saveOrUpdate(addressModel);
+        verify(addressDao, times(1)).findById(1L);
+        assertNotNull(retAddressModel);
+        assertEquals(addressModel, retAddressModel);
+    }
 
-		User userEntity = new User();
-		userEntity.setId(1L);
-		userEntity.setName("Hivekovics Zoltán");
+    @Test
+    void testModifyAddressById() throws MaintainerException {
+        com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
+        userModel.setId(1L);
+        userModel.setName("Hivekovics Zoltán");
 
-		Address addressEntity = new Address();
-		addressEntity.setUser(userEntity);
-		addressEntity.setAddressType(AddressType.PERMANET);
-		addressEntity.setCountry("Magyarország");
-		addressEntity.setCity("Budapest");
-		addressEntity.setPlaceName("Fő utca");
-		addressEntity.setStreetNumber("1");
+        Address addressModel = new Address();
+        addressModel.setId(1L);
+        addressModel.setUser(userModel);
+        addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
+        addressModel.setCountry("Magyarország");
+        addressModel.setCity("Budapest");
+        addressModel.setPlaceName("Fő utca");
+        addressModel.setStreetNumber("1");
 
-		when(addressDao.saveAndFlush(addressEntity)).thenReturn(addressEntity);
-		when(addressConverter.convertEntity(addressEntity)).thenReturn(addressModel);
-		when(addressConverter.convertModel(addressModel)).thenReturn(addressEntity);
+        when(addressDao.existsById(1L)).thenReturn(true);
+        when(addressDao.saveOrUpdate(addressModel)).thenReturn(1L);
+        when(addressDao.findById(1L)).thenReturn(addressModel);
 
-		com.example.maintainer.model.Address retAddressModel = addressServiceImpl.createAddress(addressModel);
+        Address retAddressModel = addressServiceImpl.modifyAddressById(1L, addressModel);
 
-		verify(addressDao, times(1)).saveAndFlush(addressEntity);
-		verify(addressConverter, times(1)).convertModel(addressModel);
-		verify(addressConverter, times(1)).convertEntity(addressEntity);
-		assertNotNull(retAddressModel);
-		assertEquals(addressModel, retAddressModel);
-	}
+        verify(addressDao, times(1)).existsById(1L);
+        verify(addressDao, times(1)).saveOrUpdate(addressModel);
+        verify(addressDao, times(1)).findById(1L);
+        assertNotNull(retAddressModel);
+        assertEquals(addressModel, retAddressModel);
+    }
 
-	@Test	
-	void testModifyAddressById() throws MaintainerException {
-		com.example.maintainer.model.User userModel = new com.example.maintainer.model.User();
-		userModel.setId(1L);
-		userModel.setName("Hivekovics Zoltán");
+    @Test
+    void testDeleteAddressById() throws MaintainerException {
+        when(contactDao.existsByAddressId(1L)).thenReturn(false);
+        when(addressDao.existsById(1L)).thenReturn(true);
 
-		com.example.maintainer.model.Address addressModel = new com.example.maintainer.model.Address();
-		addressModel.setId(1L);
-		addressModel.setUser(userModel);
-		addressModel.setAddressType(com.example.maintainer.model.enumeration.AddressType.PERMANET);
-		addressModel.setCountry("Magyarország");
-		addressModel.setCity("Budapest");
-		addressModel.setPlaceName("Fő utca");
-		addressModel.setStreetNumber("1");
+        addressServiceImpl.deleteAddressById(1L);
 
-		User userEntity = new User();
-		userEntity.setId(1L);
-		userEntity.setName("Hivekovics Zoltán");
-
-		Address addressEntity = new Address();
-		addressEntity.setId(1L);
-		addressEntity.setUser(userEntity);
-		addressEntity.setAddressType(AddressType.PERMANET);
-		addressEntity.setCountry("Magyarország");
-		addressEntity.setCity("Budapest");
-		addressEntity.setPlaceName("Fő utca");
-		addressEntity.setStreetNumber("1");
-
-		when(addressDao.existsById(1L)).thenReturn(true);
-		when(addressDao.saveAndFlush(addressEntity)).thenReturn(addressEntity);
-		when(addressConverter.convertEntity(addressEntity)).thenReturn(addressModel);
-		when(addressConverter.convertModel(addressModel)).thenReturn(addressEntity);
-
-		com.example.maintainer.model.Address retAddressModel = addressServiceImpl.modifyAddressById(1L, addressModel);
-
-		verify(addressDao, times(1)).existsById(1L);
-		verify(addressDao, times(1)).saveAndFlush(addressEntity);
-		verify(addressConverter, times(1)).convertModel(addressModel);
-		verify(addressConverter, times(1)).convertEntity(addressEntity);
-		assertNotNull(retAddressModel);
-		assertEquals(addressModel, retAddressModel);
-	}
-
-	@Test
-	void testDeleteAddressById() throws MaintainerException {
-		when(contactDao.countByAddressId(1L)).thenReturn(0);
-
-		addressServiceImpl.deleteAddressById(1L);
-
-		verify(addressDao, times(1)).deleteById(1L);
-		verify(addressDao, times(1)).flush();
-	}
+        verify(addressDao, times(1)).deleteById(1L);
+    }
 
 }
