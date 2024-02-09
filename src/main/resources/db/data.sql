@@ -1,3 +1,8 @@
+--liquibase formatted sql
+
+--changeset data:1 context:test
+
+
 INSERT INTO global_user (name) VALUES ('Hivekovics Zoltán');
 INSERT INTO global_user (name) VALUES ('Kovács Norbert');
 INSERT INTO global_user (name) VALUES ('Törlendő felhasználó');

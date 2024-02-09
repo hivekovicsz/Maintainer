@@ -1,3 +1,7 @@
+--liquibase formatted sql
+
+--changeset tables:1 context:prod
+
 drop table if exists global_contact;
 drop table if exists global_address;
 drop table if exists global_user; 
