@@ -27,6 +27,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(Long id) {
+        return userDao.findById(id);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public User createUser(User user) throws MaintainerException {
         invalidUserId(user);

@@ -9,6 +9,8 @@ public interface ContactsApi {
 
 	List<Contact> listContacts();
 
+	Contact getContactById(Long id);
+
 	Contact createContact(Contact contact) throws MaintainerException;
 
 	Contact modifyContactById(Long id, Contact contact) throws MaintainerException;

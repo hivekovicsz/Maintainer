@@ -9,6 +9,8 @@ public interface AddressService {
 
 	List<Address> listAddresses();
 
+	Address getAddressById(Long id);
+
 	Address createAddress(Address address) throws MaintainerException;
 
 	Address modifyAddressById(Long id, Address address) throws MaintainerException;

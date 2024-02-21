@@ -9,6 +9,8 @@ public interface UsersApi {
 
 	List<User> listUsers();
 
+	User getUserById(Long id);
+
 	User createUser(User user) throws MaintainerException;
 
 	User modifyUserById(Long id, User user) throws MaintainerException;

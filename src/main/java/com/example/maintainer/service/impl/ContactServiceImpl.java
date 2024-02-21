@@ -22,6 +22,11 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    public Contact getContactById(Long id) {
+        return contactDao.findById(id);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Contact createContact(Contact contact) throws MaintainerException {
         invalidContactId(contact);

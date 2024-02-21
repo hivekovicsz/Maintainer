@@ -7,7 +7,9 @@ import com.example.maintainer.model.Address;
 
 public interface AddressesApi {
 
-	public List<Address> listAddresses();
+	List<Address> listAddresses();
+
+	Address getAddressById(Long id);
 	
 	Address createAddress(Address address) throws MaintainerException;
 

@@ -26,6 +26,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public Address getAddressById(Long id) {
+        return addressDao.findById(id);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public Address createAddress(Address address) throws MaintainerException {
         invalidUserId(address);

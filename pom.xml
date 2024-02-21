@@ -15,6 +15,7 @@
 	<description>Maintainer</description>
 	<properties>
 		<java.version>17</java.version>
+		<liquibase-propertyFile>src/main/resources/liquibase.properties</liquibase-propertyFile>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,25 +47,24 @@
         </dependency>
 
 		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-common</artifactId>
+			<version>1.6.15</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
 	</dependencies>
 
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-maven-plugin</artifactId>
-				<configuration>
-					<propertyFile>${liquibase-propertyFile}</propertyFile>
-					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-				</configuration>
 			</plugin>
 		</plugins>
 
@@ -83,6 +83,26 @@
 			<properties>
 				<liquibase-propertyFile>src/main/resources/liquibase.properties</liquibase-propertyFile>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<configuration>
+							<propertyFile>${liquibase-propertyFile}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+					</plugin>
+				</plugins>
+
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+
+			</build>
 		</profile>
 	</profiles>
 
