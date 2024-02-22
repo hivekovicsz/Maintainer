@@ -52,13 +52,17 @@
 			<version>1.6.15</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-		</dependency>
-
 	</dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+				<version>4.26.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 	<build>
 		<plugins>
@@ -80,6 +84,12 @@
 	<profiles>
 		<profile>
 			<id>liquibase-local</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-core</artifactId>
+                </dependency>
+            </dependencies>
 			<properties>
 				<liquibase-propertyFile>src/main/resources/liquibase.properties</liquibase-propertyFile>
 			</properties>
